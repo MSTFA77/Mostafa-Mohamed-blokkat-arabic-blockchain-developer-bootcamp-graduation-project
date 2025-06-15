@@ -1,7 +1,16 @@
 # 💸 ETH Withdrawal DApp
 
 A decentralized application (DApp) that allows the owner to withdraw the equivalent of \$50 in ETH, and users to deposit ETH into the contract. Built with **Solidity**, **Next.js**, **Wagmi**, and deployed to **Scroll Sepolia Testnet**.
+---
 
+## 🚀 Hosting
+
+* Smart contract hosted on Scroll Sepolia
+* Frontend hosted on **Vercel**
+
+  * Link: [Vercel Frontend](https://web3-73j241laf-mstfa77s-projects.vercel.app/)
+
+---
 ---
 
 ## 📦 Table of Contents
