@@ -1,66 +1,106 @@
-📜 Smart Contract
-✅ Features
-constructor() sets the deployer as the owner and configures the Chainlink price feed
+## 📜 Smart Contract
 
-getETHAmountFor50USD(): calculates how much ETH (in wei) is needed to equal $50
+### ✅ Features
 
-withdraw50USDInETH(): allows the owner to withdraw that amount, if balance permits
+- `constructor()`  
+  Sets the deployer as the **owner** and configures the **Chainlink ETH/USD price feed**.
 
-receive(): enables the contract to accept ETH deposits from anyone
+- `getETHAmountFor50USD()`  
+  Calculates how much **ETH (in wei)** is needed to equal **$50** based on the real-time price.
 
-🧠 Key Logic
-solidity
+- `withdraw50USDInETH()`  
+  Allows the **owner** to withdraw exactly $50 worth of ETH **if the contract has enough balance**.
+
+- `receive()`  
+  Enables the contract to **accept ETH deposits** from any user.
+
+---
+
+### 🧠 Key Logic
+
+```solidity
 uint256 ethAmount = (50 * 1e26) / uint256(price); // $50 in ETH using 8 decimal Chainlink price
-🔗 Chainlink Price Feed
+````
 
-Network: Scroll Sepolia
+---
 
-ETH/USD Price Feed Address: 0x59F1ec1f10bD7eD9B938431086bC1D9e233ECf41
+### 🔗 Chainlink Price Feed
 
-Decimals: 8
+* **Network:** Scroll Sepolia
+* **Feed:** ETH/USD
+* **Address:** `0x59F1ec1f10bD7eD9B938431086bC1D9e233ECf41`
+* **Decimals:** `8`
 
-🧪 Testing
-Testing framework: Foundry
+---
 
-✅ Covered Scenarios:
-Owner correctly set on deployment
+## 🧪 Testing
 
-Accurate ETH amount for $50 based on mock Chainlink feed
+**Testing framework:** [Foundry](https://book.getfoundry.sh/)
 
-Withdraw succeeds with sufficient contract balance
+### ✅ Covered Scenarios:
 
-Withdraw fails if called by non-owner
+* Owner is correctly set on deployment
+* Calculates ETH amount for \$50 accurately using mock Chainlink feed
+* Withdraw succeeds if enough ETH is available
+* Withdraw fails if:
 
-Withdraw fails if balance is insufficient
+  * Not called by owner
+  * Insufficient contract balance
+* ETH is correctly received using the `receive()` function
+* Fails gracefully if the price feed returns an invalid (0) value
 
-ETH received correctly via receive()
+---
 
-Fails gracefully if price feed is invalid (0)
+### 🧪 Mocking Chainlink
 
-🧪 Mocking Chainlink
-MockPriceFeed is injected by direct storage override:
+A mock Chainlink price feed is used in tests and injected into the deployed contract using **direct storage override**:
 
-solidity
+```solidity
+vm.store(
+    address(usdWithdrawer),
+    bytes32(0), // storage slot for priceFeed
+    bytes32(uint256(uint160(address(mockFeed))))
+);
+```
 
-vm.store(address(usdWithdrawer), bytes32(0), bytes32(uint256(uint160(address(mockFeed)))));
-📁 Test file: test/USDWithdrawer.t.sol
+📄 Test file: `test/USDWithdrawer.t.sol`
 
-🔒 Design & Security
-✅ Design Requirements
-Minimalist smart contract with clear responsibility separation
+---
 
-Secure owner-only access to critical withdrawal function
+## 🔒 Design & Security
 
-🛡️ Security Measures
-onlyOwner enforcement using require
+### ✅ Design Principles
 
-Price feed validation (require(price > 0))
+* Minimalist and focused contract
+* Clear separation of concerns
+* Critical logic restricted to the **owner only**
 
-Withdrawal only permitted if contract has enough balance
+### 🛡️ Security Measures
 
-Receive function guarded by no logic = safer from misuse
+* Access control using `require(msg.sender == owner)`
+* Validates price from Chainlink feed (`require(price > 0)`)
+* Ensures sufficient balance before withdrawal
+* Fallback `receive()` function doesn't execute logic (just accepts ETH safely)
 
-📚 Natspec Docs
-Smart contract is annotated with Solidity NatSpec:
+---
 
-@notice, @param, @return, @dev
+## 📚 Natspec Documentation
+
+Each public/external function is annotated using [Solidity NatSpec](https://docs.soliditylang.org/en/v0.8.19/natspec-format.html):
+
+* `@notice` — What the function does
+* `@dev` — Technical info
+* `@return` — What the function returns
+* `@param` — For parameter descriptions
+
+Example:
+
+```solidity
+/// @notice Get the amount of ETH (in wei) equivalent to 50 USD
+/// @return Amount of ETH (in wei)
+function getETHAmountFor50USD() public view returns (uint256) { ... }
+```
+
+```
+
+---
