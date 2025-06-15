@@ -83,7 +83,7 @@ Location: `/frontend`
   * Withdraw (only if owner)
 * ✅ Updates UI after transaction success
 
-Live Demo: 🌍 [https://web3-73j241laf-mstfa77s-projects.vercel.app/](https://web3-73j241laf-mstfa77s-projects.vercel.app/)
+Live Demo: 🌍 [https://web3-73j241laf-mstfa77s-projects.vercel.app/](https://mostafa-mohamed-blokkat-arabic-bloc.vercel.app/)
 
 ---
 
