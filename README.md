@@ -9,6 +9,7 @@ A decentralized application (DApp) that allows the owner to withdraw the equival
 * Frontend hosted on **Vercel**
 
   * Link: [Vercel Frontend](https://web3-73j241laf-mstfa77s-projects.vercel.app/)
+  * Link of Scroll Sepolia Testnet to connect it to you wallet :(https://thirdweb.com/scroll-sepolia-testnet)
 
 ---
 ---
